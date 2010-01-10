@@ -45,7 +45,7 @@ class StarTrekFortunes(plasmascript.Applet):
 
         # parse or initialize configurations
         self._textColor = QColor(self.conf.readEntry("textColor", "#000000"))
-        self._shadowColor = QColor(self.conf.readEntry("ShadowColor", "#FFFFFF"))
+        self._shadowColor = QColor(self.conf.readEntry("shadowColor", "#FFFFFF"))
         self._font = QFont(self.conf.readEntry("font", QFont("Sans-Serif", 12, QFont.Bold)))
         self._showBackground = self.conf.readEntry("showBackground", "False").toBool()
         self._showSVG = self.conf.readEntry("showSVG", "True").toBool()
