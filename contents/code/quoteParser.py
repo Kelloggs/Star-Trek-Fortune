@@ -25,19 +25,26 @@ from random import randint
 
 class QuoteParser():
     def __init__(self, directoryPath):
-        self._fileLocation = directoryPath + 'contents/code/quotes/'
-        self._files = os.listdir(self._fileLocation)
+        fileLocation = directoryPath + 'contents/code/quotes/'
+        files = os.listdir(fileLocation)
         self._quotes = []
-        for file in self._files:    
-            textTmp = ''
-            with open(self._fileLocation + file) as quoteFile:
-                for line in quoteFile.readlines():
-                    textTmp += line
-            self._quotes.extend(textTmp.split('%'))
-        if '' in self._quotes:
-            self._quotes.remove('')
+        filter = '\n', '', '\0'
+        for file in files:     
+            # do not parse hidden or temp files  
+            if not file.startswith(".") and not file.endswith("~"):
+                with open(fileLocation + file) as quoteFile:
+                    tmpString = ''
+                    for line in quoteFile.readlines():                    
+                        if not line.startswith('%'):
+                            tmpString += line
+                        if line.startswith('%'):
+                            if tmpString not in filter:
+                                tmpString = tmpString.strip('\n')
+                                tmpString = tmpString.strip()
+                                self._quotes.append(tmpString)  
+                            tmpString = ''                 
                                 
                          
     def getRandomQuote(self):
         randFile = randint(0, (len(self._quotes) - 1))
-        return self._quotes[randFile].strip('\n')           
+        return unicode(self._quotes[randFile], "UTF-8")           
